@@ -20,7 +20,7 @@ module.exports = {
     'eslint-config-prettier',
     'plugin:react/recommended',
   ],
-  plugins: ['@typescript-eslint', 'import', 'prettier', 'react', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'import', 'prettier', 'react', 'react-hooks', 'simple-import-sort'],
   settings: { react: { version: 'detect' } },
 
   rules: {
@@ -126,5 +126,26 @@ module.exports = {
         ignore: ['css'],
       },
     ],
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Packages `react` related packages come first.
+          ['^react', '^@?\\w'],
+          // Internal packages.
+          ['^(@|components)(/.*|$)'],
+          // Side effect imports.
+          ['^\\u0000'],
+          // Parent imports. Put `..` last.
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+          // Style imports.
+          ['^.+\\.?(css)$'],
+        ],
+      },
+    ],
+    'simple-import-sort/exports': 'error',
+    'import/first': 'error',
   },
 };
